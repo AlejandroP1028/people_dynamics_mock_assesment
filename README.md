@@ -1,31 +1,52 @@
-Feature Overview (Maps to Requirements)
+# 📇 Laravel Contacts CRUD
 
-User Authentication (sessions): Registration, login, logout via Breeze; sessions managed by Laravel.
+A simple Laravel application with authentication and CRUD functionality for managing contacts.
 
-Restrict dashboard/CRUD to authenticated users: Routes wrapped with auth middleware + policies.
+## Installation
 
-PDO + Prepared Statements: Laravel's DB layer uses PDO. Example raw prepared query included.
+1️⃣ Clone the repository
 
-CRUD Dashboard: Implemented for an example resource Contact (name, email, phone, notes). Owned by the logged-in user.
+```bash
+git clone https://github.com/AlejandroP1028/people_dynamics_mock_assesment.git
+cd people_dynamics_mock_assesment
 
-Security
+```
 
-XSS: Blade auto‑escapes {{ }}; additional server-side sanitization via Form Requests.
+2️⃣ Install dependencies
 
-Password hashing: password_hash() equivalent via Laravel's Hash::make(); verification via guard.
+```bash
+composer install
+npm install && npm run dev
+```
 
-Session management: Secure cookies, same-site, HTTPOnly; custom inactivity timeout middleware.
+3️⃣ Setup environment
 
-CSRF: Built-in @csrf and VerifyCsrfToken middleware.
+Copy .env.example into .env and update your DB connection:
 
-Form Handling: Sensitive ops via POST/PUT/PATCH/DELETE; client + server validation.
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Error Handling: Friendly validation errors; exceptions hidden from users; logs to storage.
+Example .env snippet:
 
-Bonus
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=people_dynamics
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-CSRF: built-in.
+4️⃣ Run migrations & seed database
 
-Password reset via email: Included with Breeze routes/views.
+```
+php artisan migrate --seed
+```
 
-Role-based access control (RBAC): Simple role column (user/admin) + middleware
+5️⃣ Start local server
+
+```
+php artisan serve
+```

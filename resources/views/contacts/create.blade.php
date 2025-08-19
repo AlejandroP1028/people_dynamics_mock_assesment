@@ -5,8 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="max-w-lg mx-auto p-6 bg-white shadow rounded">
-        <h1 class="text-2xl font-bold mb-4">Add Contact</h1>
+    <div class="max-w-3xl mx-auto py-8 px-6 ">
+        <div class="bg-white shadow rounded-lg p-6">
+<h1 class="text-2xl font-bold mb-4">Add Contact</h1>
 
         <form action="{{ route('contacts.store') }}" method="POST" class="space-y-4">
             @csrf
@@ -35,5 +36,7 @@
                 </a>
             </div>
         </form>
+        </div>
+        
     </div>
 </x-app-layout>

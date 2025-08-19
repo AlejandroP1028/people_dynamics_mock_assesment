@@ -1,16 +1,42 @@
 <x-app-layout>
-    <div class="max-w-lg mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-4">Contact Details</h1>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('View Contact') }}
+        </h2>
+    </x-slot>
 
-        <p><strong>Name:</strong> {{ $contact->name }}</p>
-        <p><strong>Email:</strong> {{ $contact->email }}</p>
-        <p><strong>Phone:</strong> {{ $contact->phone }}</p>
+    <div class="max-w-3xl mx-auto py-8 px-6">
+        <div class="bg-white shadow rounded-lg p-6">
+            <h1 class="text-2xl font-bold mb-6 text-gray-900">Contact Details</h1>
 
-        <div class="mt-4">
-            <a href="{{ route('contacts.edit', $contact) }}" 
-               class="bg-green-500 text-white px-4 py-2 rounded">Edit</a>
-            <a href="{{ route('contacts.index') }}" 
-               class="ml-2 text-gray-600">Back</a>
+            <div class="space-y-4">
+                <div>
+                    <span class="font-medium text-gray-700">Name:</span>
+                    <p class="text-gray-900">{{ $contact->name }}</p>
+                </div>
+
+                <div>
+                    <span class="font-medium text-gray-700">Email:</span>
+                    <p class="text-gray-900">{{ $contact->email }}</p>
+                </div>
+
+                <div>
+                    <span class="font-medium text-gray-700">Phone:</span>
+                    <p class="text-gray-900">{{ $contact->phone }}</p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex items-center gap-3">
+                <a href="{{ route('contacts.edit', $contact) }}" 
+                   class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md shadow hover:bg-green-700">
+                    Edit
+                </a>
+
+                <a href="{{ route('contacts.index') }}" 
+                   class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-md shadow hover:bg-gray-300">
+                    Back
+                </a>
+            </div>
         </div>
     </div>
 </x-app-layout>

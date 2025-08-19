@@ -1,6 +1,6 @@
 # 📇 Laravel Contacts CRUD
 
-A simple Laravel application with authentication and CRUD functionality for managing contacts.
+A simple Laravel application with authentication and CRUD functionality for managing contacts. Utilize Laravel Breeze for initial scaffolding.
 
 ## Installation
 

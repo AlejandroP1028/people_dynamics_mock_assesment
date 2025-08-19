@@ -3,64 +3,85 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
+use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware(['auth', 'verified']);
+        $this->authorizeResource(Contact::class, 'contact');
+    }
+
+    public function index(Request $request): View
+    {
+        $contacts = $request->user()->role === 'admin'
+            ? Contact::latest()->paginate(10)
+            : Contact::where('user_id', $request->user()->id)->latest()->paginate(10);
+
+        return view('contacts.index', compact('contacts'));
+    }
+
+    public function create(): View
+    {
+        return view('contacts.create');
+    }
+
+    public function store(StoreContactRequest $request): RedirectResponse
+    {
+        $contact = new Contact($request->validated());
+        $contact->user()->associate($request->user());
+        $contact->save();
+
+        return redirect()->route('contacts.index')->with('status', 'Contact created.');
+    }
+
+    public function show(Contact $contact): View
+    {
+        return view('contacts.show', compact('contact'));
+    }
+
+    public function edit(Contact $contact): View
+    {
+        return view('contacts.edit', compact('contact'));
+    }
+
+    public function update(UpdateContactRequest $request, Contact $contact): RedirectResponse
+    {
+        $contact->update($request->validated());
+
+        return redirect()->route('contacts.index')->with('status', 'Contact updated.');
+    }
+
+    public function destroy(Contact $contact): RedirectResponse
+    {
+        $contact->delete();
+
+        return redirect()->route('contacts.index')->with('status', 'Contact deleted.');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Example: Raw PDO prepared statement via DB::select with bindings
+     * (Laravel uses PDO under the hood; this demonstrates prepared statements.)
      */
-    public function create()
+    public function pdoExample(Request $request): View
     {
-        //
-    }
+        $email = $request->query('email');
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // Safe prepared statement using binding
+        $contacts = DB::select(
+            'SELECT * FROM contacts WHERE email = ?',
+            [$email]
+        );
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Contact $contact)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Contact $contact)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Contact $contact)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Contact $contact)
-    {
-        //
+        return view('contacts.pdo_example', [
+            'contacts' => $contacts,
+            'email' => $email,
+        ]);
     }
 }

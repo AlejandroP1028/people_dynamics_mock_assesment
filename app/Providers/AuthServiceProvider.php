@@ -9,6 +9,6 @@ use App\Policies\ContactPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    protected $policies = [ Contact::class => ContactPolicy::class ];
+    protected $policies = [ Contact::class => ContactPolicy::class,   ];
     public function boot(): void {}
 }

@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use Illuminate\Support\Facades\DB;
+// use App\Http\Controllers\Controller;
 
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller;
 class ContactController extends Controller
 {
+
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct()
     {
         $this->middleware(['auth', 'verified']);
@@ -65,10 +72,7 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('status', 'Contact deleted.');
     }
 
-    /**
-     * Example: Raw PDO prepared statement via DB::select with bindings
-     * (Laravel uses PDO under the hood; this demonstrates prepared statements.)
-     */
+
     public function pdoExample(Request $request): View
     {
         $email = $request->query('email');
